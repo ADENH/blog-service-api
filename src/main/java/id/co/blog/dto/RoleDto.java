@@ -1,16 +1,21 @@
 package id.co.blog.dto;
 
 import id.co.blog.model.Roles;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Getter
 @Setter
-public class RolesDto {
+@AllArgsConstructor
+@NoArgsConstructor
+public class RoleDto {
 
 	private String code;
 	private String name;
 	
-	public RolesDto(Roles role) {
+	public RoleDto(Roles role) {
 		this.code = role.getCode();
 		this.name = role.getName();
 	}

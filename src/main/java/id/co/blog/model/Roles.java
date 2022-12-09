@@ -2,22 +2,27 @@ package id.co.blog.model;
 
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import id.co.blog.dto.RolesDto;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import id.co.blog.dto.RoleDto;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Roles {
 
 	@Id
@@ -34,7 +39,7 @@ public class Roles {
 	@JsonIgnore
 	private Set<Users> user;
 
-	public Roles(RolesDto role) {
+	public Roles(RoleDto role) {
 		this.id = -1;
 		this.code = role.getCode();
 		this.name = role.getName();
