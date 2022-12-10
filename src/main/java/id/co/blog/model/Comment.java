@@ -1,6 +1,5 @@
 package id.co.blog.model;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -24,28 +23,24 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Blog {
-
+public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String title;
-	@Column(columnDefinition = "text")
 	private String content;
-	private String tags;
 	private String status;
+	private String url;
 	
 	@Column(updatable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createDate = new Date();
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-	private LocalDate updateDate;
-	
-	private Long viewed;
-	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "users", nullable = false)
 	private Users users;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "blog_id", nullable = false)
+	private Blog blog;
 }

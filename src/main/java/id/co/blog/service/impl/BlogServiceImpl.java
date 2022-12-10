@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import id.co.blog.configuration.Constant;
+import id.co.blog.dto.BlogDetailResponse;
 import id.co.blog.dto.PaginationResponse;
 import id.co.blog.dto.PostBlogRequest;
 import id.co.blog.dto.ResponseTemplate;
@@ -78,6 +79,22 @@ public class BlogServiceImpl implements BlogService{
 		response.setData(blogs);
 		
 		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<BlogDetailResponse> getDetailBlog(Long id) {
+		BlogDetailResponse response = new BlogDetailResponse();
+		Blog blog = blogRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Blog Tidak Ditemukan"));
+		
+		response.setAuthor(blog.getUsers().getUsername());
+		response.setContent(blog.getContent());
+		response.setPublishDate(blog.getCreateDate());
+		response.setTitle(blog.getTitle());
+		response.setViewed(blog.getViewed());
+		
+		blog.setViewed(blog.getViewed()+1L);
+		blogRepository.save(blog);
+		return new ResponseEntity<BlogDetailResponse>(response,HttpStatus.OK);
 	}
 
 }
