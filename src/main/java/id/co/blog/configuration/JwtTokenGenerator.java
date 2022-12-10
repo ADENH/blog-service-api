@@ -18,6 +18,7 @@ import com.nimbusds.jwt.SignedJWT;
 
 import id.co.blog.dto.TokenResponse;
 import id.co.blog.model.Users;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author adenurhidayat.com
@@ -25,6 +26,7 @@ import id.co.blog.model.Users;
  * 7:24:04 PM
  */
 @Configuration
+@Slf4j
 public class JwtTokenGenerator {
 	public static class ClaimSet {
 
@@ -45,7 +47,8 @@ public class JwtTokenGenerator {
 				.issueTime(new Date()).expirationTime(expirationDate.getTime())
 				.claim(ClaimSet.ROLE_CLAIM, user.getRole().getCode()).build();
 
-		SignedJWT signedJWT = new SignedJWT(new JWSHeader.Builder(JWSAlgorithm.RS256).jwk(jwk).build(), claimsSet);
+
+		SignedJWT signedJWT = new SignedJWT(new JWSHeader.Builder(JWSAlgorithm.RS256).jwk(jwk.toPublicJWK()).build(), claimsSet);
 
 		try {
 			JWSSigner signer = new RSASSASigner(rsaPrivateKey);
