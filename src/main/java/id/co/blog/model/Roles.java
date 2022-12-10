@@ -35,7 +35,7 @@ public class Roles {
 	@Column(name = "is_delete",nullable = false)
 	private Integer isDelete;
 
-	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<Users> user;
 

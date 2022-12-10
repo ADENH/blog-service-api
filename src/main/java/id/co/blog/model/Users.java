@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,10 +28,11 @@ public class Users {
 	private String fullName;
 
 	@Column(nullable = false)
+	@JsonIgnore
 	private String password;
 	private String email;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "position_id", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "role", nullable = false)
     private Roles role;
 }
