@@ -17,6 +17,7 @@ import id.co.blog.dto.PostBlogRequest;
 import id.co.blog.dto.ResponseTemplate;
 import id.co.blog.model.Blog;
 import id.co.blog.service.BlogService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 /**
  * @author adenurhidayat.com 
@@ -24,7 +25,8 @@ import id.co.blog.service.BlogService;
  * 12:32:11 AM
  */
 @RestController
-@RequestMapping("/api/blog")
+@RequestMapping("/api/data")
+@SecurityRequirement(name = "bearerAuth")
 public class BlogController {
 
 	@Autowired
@@ -45,5 +47,13 @@ public class BlogController {
 		return blogService.getDetailBlog(id);
 	}
 	
+	@PostMapping("/update")
+	public ResponseEntity<ResponseTemplate> updateBlog(@RequestParam Long id,@RequestBody PostBlogRequest request) {
+		return blogService.updateBlog(id,request);
+	}
 	
+	@PostMapping("/delete")
+	public ResponseEntity<ResponseTemplate> updateBlog(@RequestParam Long id) {
+		return blogService.deleteBlog(id);
+	}
 }

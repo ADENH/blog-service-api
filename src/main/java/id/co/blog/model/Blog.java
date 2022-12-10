@@ -1,6 +1,5 @@
 package id.co.blog.model;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -41,7 +40,7 @@ public class Blog {
 	private Date createDate = new Date();
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-	private LocalDate updateDate;
+	private Date updateDate;
 	
 	private Long viewed;
 	

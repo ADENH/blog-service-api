@@ -1,6 +1,7 @@
 package id.co.blog.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -62,7 +63,7 @@ public class BlogServiceImpl implements BlogService{
 		List<Blog> blogs = new ArrayList<Blog>();
 		Pageable paging = PageRequest.of(page, size);
 		
-		Users user = usersRepository.findByUsername(author).orElseThrow(() -> new NoSuchElementException("Users Tidak Ditemukan"));
+		Users user = usersRepository.findByUsername(author).orElseThrow(() -> new NoSuchElementException(Constant.USER_TIDAK_DITEMUKAN));
 		
 		Page<Blog> blogData = blogRepository.findBlogByStatusAndUsers(status, user, paging);
 		
@@ -84,7 +85,7 @@ public class BlogServiceImpl implements BlogService{
 	@Override
 	public ResponseEntity<BlogDetailResponse> getDetailBlog(Long id) {
 		BlogDetailResponse response = new BlogDetailResponse();
-		Blog blog = blogRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Blog Tidak Ditemukan"));
+		Blog blog = blogRepository.findById(id).orElseThrow(() -> new NoSuchElementException(Constant.BLOG_TIDAK_DITEMUKAN));
 		
 		response.setAuthor(blog.getUsers().getUsername());
 		response.setContent(blog.getContent());
@@ -95,6 +96,27 @@ public class BlogServiceImpl implements BlogService{
 		blog.setViewed(blog.getViewed()+1L);
 		blogRepository.save(blog);
 		return new ResponseEntity<BlogDetailResponse>(response,HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<ResponseTemplate> updateBlog(Long id, PostBlogRequest request) {
+		Blog blog = blogRepository.findById(id).orElseThrow(() -> new NoSuchElementException(Constant.BLOG_TIDAK_DITEMUKAN));
+		blog.setTitle(request.getTitle());
+		blog.setContent(request.getContent());
+		blog.setUpdateDate(new Date());
+		blog.setTags(request.getTags());
+		blog.setStatus(request.getStatus());
+		blog = blogRepository.save(blog);
+		return new ResponseEntity<>(new ResponseTemplate(HttpStatus.OK, "Success update blog content"),HttpStatus.CREATED);
+	}
+
+	@Override
+	public ResponseEntity<ResponseTemplate> deleteBlog(Long id) {
+		
+		Blog blog = blogRepository.findById(id).orElseThrow(() -> new NoSuchElementException(Constant.BLOG_TIDAK_DITEMUKAN));
+		blog.setStatus("deleted");
+		blog = blogRepository.save(blog);
+		return new ResponseEntity<>(new ResponseTemplate(HttpStatus.OK, "Success delete blog content"),HttpStatus.OK);
 	}
 
 }
