@@ -21,4 +21,6 @@ public interface BlogService {
 	ResponseEntity<ResponseTemplate> updateBlog(Long id, PostBlogRequest request);
 
 	ResponseEntity<ResponseTemplate> deleteBlog(Long id);
+
+	ResponseEntity<PaginationResponse<List<Blog>>> displayAllBlogEntries(String status, int page, int size);
 }

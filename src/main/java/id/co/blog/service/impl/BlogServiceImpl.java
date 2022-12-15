@@ -119,4 +119,26 @@ public class BlogServiceImpl implements BlogService{
 		return new ResponseEntity<>(new ResponseTemplate(HttpStatus.OK, "Success delete blog content"),HttpStatus.OK);
 	}
 
+	@Override
+	public ResponseEntity<PaginationResponse<List<Blog>>> displayAllBlogEntries(String status, int page, int size) {
+		List<Blog> blogs = new ArrayList<Blog>();
+		Pageable paging = PageRequest.of(page, size);
+		
+		Page<Blog> blogData = blogRepository.findAllBlogByStatus(status, paging);
+		
+		for(Blog blog:blogData.getContent()) {
+			String content = StringUtils.abbreviate(blog.getContent(),Constant.JUMLAH_HURUF_DITAMPILKAN);
+			blog.setContent(content);
+			blogs.add(blog);
+		}
+		
+		PaginationResponse<List<Blog>> response = new PaginationResponse<>();
+		response.setPage(blogData.getNumber());
+		response.setSize(blogData.getSize());
+		response.setTotal(blogData.getTotalPages());
+		response.setData(blogs);
+		
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+
 }

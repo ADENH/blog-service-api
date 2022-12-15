@@ -10,5 +10,7 @@ import id.co.blog.model.Users;
 public interface BlogRepository extends JpaRepository<Blog, Long>{
 	
 	Page<Blog> findBlogByStatusAndUsers(String Status,Users user,Pageable page);
+	
+	Page<Blog> findAllBlogByStatus(String Status,Pageable page);
 
 }
